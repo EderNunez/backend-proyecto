@@ -19,10 +19,10 @@ app.add_middleware(
 
 
 mydb = mysql.connector.connect(
-    host="b3iq1j85wwffmaway0yd-mysql.services.clever-cloud.com",
-    user="ugzlnrbwtglwiihj",
-    password="113L3IulFpflupz5oiPd",
-    database="b3iq1j85wwffmaway0yd",
+    host=MYSQL_ADDON_HOST,
+    user=MYSQL_ADDON_USER,
+    password=MYSQL_ADDON_PASSWORD,
+    database=MYSQL_ADDON_DB,
 )
 
 
