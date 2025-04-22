@@ -153,7 +153,7 @@ def registro_usuario(usuario: UsuarioRegistro):
 def obtener_videos():
     try:
         with mydb.cursor(dictionary=True) as cursor:
-            cursor.execute("SELECT * FROM Videos")
+            cursor.execute("SELECT * FROM videos")
             return {"resultado": jsonable_encoder(cursor.fetchall())}
     except Exception as err:
         raise HTTPException(status_code=400, detail=str(err))
@@ -163,7 +163,7 @@ def obtener_videos():
 def obtener_video(id: int):
     try:
         with mydb.cursor(dictionary=True) as cursor:
-            cursor.execute("SELECT * FROM Videos Where ID_Video = %s", (id,))
+            cursor.execute("SELECT * FROM videos Where ID_Video = %s", (id,))
             return {"resultado": jsonable_encoder(cursor.fetchone())}
     except Exception as err:
         raise HTTPException(status_code=400, detail=str(err))
@@ -174,7 +174,7 @@ def crear_video(video: VideoCreate):
     try:
         with mydb.cursor(dictionary=True) as cursor:
             sql = """
-                INSERT INTO Videos 
+                INSERT INTO videos 
                 (Título, Enlace, Fecha_Publicacion, ID_Usuario)
                 VALUES (%s, %s, %s, %s)
             """
@@ -191,7 +191,7 @@ def cambiar_video(videoCreate: VideoCreate, id: int):
     try:
         with mydb.cursor(dictionary=True) as cursor:
             cursor.execute(
-                "UPDATE Videos SET Título = %s, Enlace = %s, Fecha_Publicacion = %s WHERE ID_Video = %s",
+                "UPDATE videos SET Título = %s, Enlace = %s, Fecha_Publicacion = %s WHERE ID_Video = %s",
                 (
                     videoCreate.Título,
                     videoCreate.Enlace,
@@ -209,7 +209,7 @@ def cambiar_video(videoCreate: VideoCreate, id: int):
 def borrar_video(id: int):
     try:
         with mydb.cursor(dictionary=True) as cursor:
-            cursor.execute("DELETE FROM Videos WHERE ID_Video = %s", (id,))
+            cursor.execute("DELETE FROM videos WHERE ID_Video = %s", (id,))
             mydb.commit()
             return {"mensaje": "Se a borrado el video con exito"}
     except Exception as err:
