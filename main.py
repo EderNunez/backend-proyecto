@@ -108,7 +108,7 @@ def login(usuario: UsuarioLogin):
     try:
         with mydb.cursor(dictionary=True) as cursor:
             cursor.execute(
-                "SELECT * FROM Usuarios WHERE Usuario = %s AND Contraseña = %s",
+                "SELECT * FROM usuarios WHERE Usuario = %s AND Contraseña = %s",
                 (usuario.Usuario, usuario.Contraseña),
             )
             result = cursor.fetchone()
@@ -135,7 +135,7 @@ def registro_usuario(usuario: UsuarioRegistro):
 
         with mydb.cursor() as cursor:
             sql = """
-                INSERT INTO Usuarios 
+                INSERT INTO usuarios 
                 (Usuario, Correo, Contraseña, Rol)
                 VALUES (%s, %s, %s, 'Usuario')
             """
@@ -220,7 +220,7 @@ def borrar_video(id: int):
 def obtener_donaciones():
     try:
         with mydb.cursor(dictionary=True) as cursor:
-            cursor.execute("SELECT * FROM Donaciones")
+            cursor.execute("SELECT * FROM donaciones")
             return {"resultado": jsonable_encoder(cursor.fetchall())}
     except Exception as err:
         raise HTTPException(status_code=400, detail=str(err))
@@ -230,7 +230,7 @@ def obtener_donaciones():
 def obtener_donacion(id: int):
     try:
         with mydb.cursor(dictionary=True) as cursor:
-            cursor.execute("SELECT * FROM Donaciones WHERE ID_Donacion = %s", (id,))
+            cursor.execute("SELECT * FROM donaciones WHERE ID_Donacion = %s", (id,))
             return {"resultado": jsonable_encoder(cursor.fetchone())}
     except Exception as err:
         raise HTTPException(status_code=400, detail=str(err))
@@ -242,7 +242,7 @@ def crear_donacion(donacion: DonacionCreate):
         with mydb.cursor(dictionary=True) as cursor:
 
             sql = """
-                INSERT INTO Donaciones 
+                INSERT INTO donaciones 
                 (ID_Usuario, Nombre, Apellido, Tipo_Donacion, Correo, Teléfono,
                  Monto, TipoDocumento, Documento, MetodoPago, Fecha)
                 VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
@@ -311,7 +311,7 @@ def borrar_donaciones(id: int):
 def obtener_peticiones():
     try:
         with mydb.cursor(dictionary=True) as cursor:
-            cursor.execute("SELECT * FROM Peticiones")
+            cursor.execute("SELECT * FROM peticiones")
             return {"resultado": jsonable_encoder(cursor.fetchall())}
     except Exception as err:
         raise HTTPException(status_code=400, detail=str(err))
@@ -321,7 +321,7 @@ def obtener_peticiones():
 def obtener_peticion(id: int):
     try:
         with mydb.cursor(dictionary=True) as cursor:
-            cursor.execute("SELECT * FROM Peticiones WHERE ID_Peticion = %s", (id,))
+            cursor.execute("SELECT * FROM peticiones WHERE ID_Peticion = %s", (id,))
             return {"resultado": jsonable_encoder(cursor.fetchone())}
     except Exception as err:
         raise HTTPException(status_code=400, detail=str(err))
@@ -331,7 +331,7 @@ def obtener_peticion(id: int):
 def crear_peticion(peticion: PeticionCreate):
     try:
         with mydb.cursor() as cursor:
-            sql = "INSERT INTO Peticiones (Texto_Peticion, ID_Usuario) VALUES (%s, %s)"
+            sql = "INSERT INTO peticiones (Texto_Peticion, ID_Usuario) VALUES (%s, %s)"
             cursor.execute(sql, (peticion.Texto_Peticion, peticion.x_user_id))
             mydb.commit()
             return {"mensaje": "Petición enviada exitosamente"}
