@@ -19,7 +19,10 @@ app.add_middleware(
 
 
 mydb = mysql.connector.connect(
-    host="localhost", user="root", password="", database="worshby-db"
+    host="b3iq1j85wwffmaway0yd-mysql.services.clever-cloud.com",
+    user="ugzlnrbwtglwiihj",
+    password="113L3IulFpflupz5oiPd",
+    database="b3iq1j85wwffmaway0yd",
 )
 
 
