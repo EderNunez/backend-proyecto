@@ -1,4 +1,5 @@
 from datetime import datetime
+import os
 from fastapi import FastAPI, HTTPException, status
 from pydantic import BaseModel
 import mysql.connector
@@ -19,10 +20,11 @@ app.add_middleware(
 
 
 mydb = mysql.connector.connect(
-    host="b3iq1j85wwffmaway0yd-mysql.services.clever-cloud.com",
-    user="b3iq1j85wwffmaway0yd",
-    password="113L3IulFpflupz5oiPd",
-    database="b3iq1j85wwffmaway0yd",
+    host=os.getenv("MYSQL_ADDON_HOST"),
+    port=int(os.getenv("MYSQL_ADDON_PORT")),
+    user=os.getenv("MYSQL_ADDON_USER"),
+    password=os.getenv("MYSQL_ADDON_PASSWORD"),
+    database=os.getenv("MYSQL_ADDON_DB")
 )
 
 
