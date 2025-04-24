@@ -62,6 +62,7 @@ class PeticionCreate(BaseModel):
 
 
 class UsuarioLogin(BaseModel):
+    Id: int
     Usuario: str
     Correo: str
     Contraseña: str
@@ -111,7 +112,7 @@ def actualizar_perfil(usuario: UsuarioLogin):
         with mydb.cursor(dictionary=True) as cursor:
             # Verificar usuario existente
             cursor.execute(
-                "SELECT * FROM usuarios WHERE Usuario = %s", (usuario.Usuario,)
+                "SELECT * FROM usuarios WHERE ID_Usuario = %s", (usuario.Id)
             )
             user_data = cursor.fetchone()
 
