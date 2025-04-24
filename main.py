@@ -76,6 +76,7 @@ class Miembro(BaseModel):
     Bautizado: bool
     Fecha: datetime
     Culto: str
+    ID_Usuario: int
 
 
 class Iglesia(BaseModel):
@@ -394,7 +395,7 @@ def obtener_miembro(id: int):
 
 
 @app.post("/miembros")
-def agregar_miembro(miembro: Miembro, id: int):
+def agregar_miembro(miembro: Miembro):
     try:
         with mydb.cursor() as cursor:
             sql = """
@@ -414,7 +415,7 @@ def agregar_miembro(miembro: Miembro, id: int):
                     miembro.Bautizado,
                     miembro.Fecha,
                     miembro.Culto,
-                    id,
+                    miembro.ID_Usuario,
                 ),
             )
             mydb.commit()
