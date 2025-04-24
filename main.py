@@ -24,7 +24,7 @@ mydb = mysql.connector.connect(
     port=int(os.getenv("MYSQL_ADDON_PORT")),
     user=os.getenv("MYSQL_ADDON_USER"),
     password=os.getenv("MYSQL_ADDON_PASSWORD"),
-    database=os.getenv("MYSQL_ADDON_DB")
+    database=os.getenv("MYSQL_ADDON_DB"),
 )
 
 
@@ -394,13 +394,13 @@ def obtener_miembro(id: int):
 
 
 @app.post("/miembros")
-def agregar_miembro(miembro: Miembro):
+def agregar_miembro(miembro: Miembro, id: int):
     try:
         with mydb.cursor() as cursor:
             sql = """
                 INSERT INTO miembros 
-                (Nombre, Apellido, Teléfono, Barrio, Dirección, Cargo, Bautizado, Fecha, Culto)
-                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s)
+                (Nombre, Apellido, Teléfono, Barrio, Dirección, Cargo, Bautizado, Fecha, Culto, ID_Usuario)
+                VALUES (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s)
                 """
             cursor.execute(
                 sql,
@@ -414,6 +414,7 @@ def agregar_miembro(miembro: Miembro):
                     miembro.Bautizado,
                     miembro.Fecha,
                     miembro.Culto,
+                    id,
                 ),
             )
             mydb.commit()
