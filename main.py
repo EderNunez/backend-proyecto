@@ -104,6 +104,47 @@ async def preflight_handler(full_path: str, response: Response):
     return response
 
 
+@app.put("/auth/update")
+def actualizar_perfil(usuario: UsuarioLogin):
+    try:
+        with mydb.cursor(dictionary=True) as cursor:
+            # Verificar usuario existente
+            cursor.execute(
+                "SELECT * FROM usuarios WHERE Usuario = %s", (usuario.Usuario,)
+            )
+            user_data = cursor.fetchone()
+
+            if not user_data:
+                raise HTTPException(
+                    status_code=status.HTTP_404_NOT_FOUND,
+                    detail="Usuario no encontrado",
+                )
+
+            # Actualizar contraseña si se proporciona
+            update_fields = []
+            values = []
+
+            if usuario.Contraseña:
+                update_fields.append("Contraseña = %s")
+                values.append(usuario.Contraseña)
+
+            values.append(usuario.Usuario)
+
+            if update_fields:
+                query = f"""
+                    UPDATE usuarios 
+                    SET {', '.join(update_fields)}
+                    WHERE Usuario = %s
+                """
+                cursor.execute(query, tuple(values))
+                mydb.commit()
+
+            return {"mensaje": "Perfil actualizado exitosamente"}
+
+    except Exception as err:
+        raise HTTPException(status_code=400, detail=str(err))
+
+
 @app.post("/auth/login")
 def login(usuario: UsuarioLogin):
     try:
