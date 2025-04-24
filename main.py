@@ -63,6 +63,7 @@ class PeticionCreate(BaseModel):
 
 class UsuarioLogin(BaseModel):
     Usuario: str
+    Correo: str
     Contraseña: str
 
 
@@ -124,7 +125,7 @@ def actualizar_perfil(usuario: UsuarioLogin):
             update_fields = []
             values = []
 
-            if usuario.Contraseña:
+            if usuario.Contraseña != "":
                 update_fields.append("Contraseña = %s")
                 values.append(usuario.Contraseña)
 
