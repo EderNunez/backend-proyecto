@@ -112,7 +112,7 @@ def actualizar_perfil(usuario: UsuarioLogin):
         with mydb.cursor(dictionary=True) as cursor:
             # Verificar usuario existente
             cursor.execute(
-                "SELECT * FROM usuarios WHERE ID_Usuario = %s", (usuario.Id)
+                "SELECT * FROM usuarios WHERE ID_Usuario = %s", (usuario.Id,)
             )
             user_data = cursor.fetchone()
 
